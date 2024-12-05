@@ -1,38 +1,50 @@
 import { dodajNowegoPracownika, dodajPracownika, dodajPracownikówZListy, zwolnijPracownika } from "./pracownicy.js";
 import { generujRaport } from "./raporty.js";
+import { PaniBasia } from "./types/otherTypes.js";
+import { PRIORYTET } from "./types/raportTypes.js";
+import { Pracownik, STANOWISKO, WALUTA } from "./types/pracownikTypes.js";
 
-export const listaPracowników = [];
+export const listaPracowników: Pracownik[] = [];
 
-const paniBasia = {
+const paniBasia: PaniBasia = {
     id: 0,
     imie: "Basia",
-    nazwisko: "Kowalska",
-    stanowisko: "Księgowa",
-    //pensja: ??,
+    stanowisko: STANOWISKO.pani_basia,
+    pseudonim: "SuperBasia",
+    opis: "Niezastąpiona",
+    pensja: [5000, WALUTA.Złoty_Polski_Peelen],
     graNaSkrzypcach: "pięknie",
     bezNiejTenZakładUpadnie: true
-}
+};
 
 const uruchomDzieńPracy = async () => {
-    dodajNowegoPracownika("Jan", "Kowalski", "Sprzątacz", /* ?? ---> */ 0);
+    console.log("Dodawanie nowego pracownika Jan Kowalski...");
+    dodajNowegoPracownika("Jan", "Kowalski", STANOWISKO.podbutnik, [3000, WALUTA.Złoty_Polski_Peelen]);
+
+    console.log("Dodawanie pracowników z listy JSON...");
     dodajPracownikówZListy();
+
+    console.log("Dodawanie pracownika Basia...");
     dodajPracownika(paniBasia);
-    zwolnijPracownika(0, 1);
+
+    console.log("Próba zwolnienia pracownika o ID 1...");
+    zwolnijPracownika(1, "Redukcja etatów");
+
+    console.log("Próba zwolnienia pracownika o ID 1...");
+    zwolnijPracownika(6, "Redukcja etatów");
 
     const efektyPracy = {
-        obniżonaEfektywność: true,
+        efektywność: 70,
+        priorytet: PRIORYTET.brak,
+        obnizonaEfektywnosc: true,
         spadekPensji: 1000
     };
-    const raportPracownika = generujRaport(efektyPracy, 0, "brak");
-    const raportPracowników = generujRaport({
-        0: efektyPracy,
-        1: efektyPracy
-    }, 0, "brak");
-    const raportPieseczka = await generujRaport({szczekanie: true, isPies: true, aKtoToJestTakimSłodkimPieseczkiem: true}, 0, "brak");
 
-    if(raportPieseczka.isPies){
-        console.log("Dobra psinka!");
-    }
-}
+    console.log("Generowanie raportu dla pracownika...");
+    const raportPracownika = await generujRaport(efektyPracy, 70, PRIORYTET.brak);
+    console.log("Raport pracownika:", raportPracownika);
+};
 
-uruchomDzieńPracy();
+console.log("Lista pracowników przed uruchomieniem dnia pracy:", listaPracowników);
+await uruchomDzieńPracy();
+console.log("Lista pracowników po uruchomieniu dnia pracy:", listaPracowników);

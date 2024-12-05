@@ -7,7 +7,10 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-.idea
+
+# Systemowe pliki IDE
+.idea/
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -90,13 +93,12 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+dist/
 
 # Gatsby files
 .cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
+# Uncomment the line below if your project uses Gatsby and not Next.js
+# public/
 
 # vuepress build output
 .vuepress/dist
@@ -130,3 +132,12 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# Wykluczenie katalogów wynikowych i testowych
+dist/
+test/
+
+# Pliki związane z debugowaniem i konfiguracją
+*.bak
+*.swp
+*.swo
+*.tmp
